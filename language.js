@@ -1,44 +1,69 @@
-/* Static localized pages; no network calls or third-party dependencies. */
-(function () {
+/* ImageMorph language routing — static, privacy-preserving, no external dependencies. */
+(() => {
   'use strict';
-  const supported = ['en', 'es', 'pt-BR'];
-  function match(value) {
-    const v = String(value || '').toLowerCase().replace(/_/g, '-');
-    if (v === 'en' || v.startsWith('en-')) return 'en';
-    if (v === 'es' || v.startsWith('es-')) return 'es';
-    if (v === 'pt' || v.startsWith('pt-')) return 'pt-BR';
-    return null;
+  const SUPPORTED = ['en','es','pt-BR','de','fr','hi','id','it','ja','ko','nl','pl','ru','sk','tr','uk','vi','zh-Hans','zh-Hant'];
+  const STORAGE_KEY = 'imagemorph.website.language';
+  const FILES = ['index.html', 'support.html', 'privacy.html'];
+  const select = document.getElementById('site-language');
+  const script = document.querySelector('script[src$="language.js"]');
+  if (!script || !select) return;
+
+  // The script's URL, rather than location.pathname, identifies the site's root
+  // even under a GitHub Pages project path or from a local file:// preview.
+  const base = new URL('.', script.src);
+  const relative = decodeURI(location.pathname.slice(base.pathname.length));
+  const chunks = relative.split('/').filter(Boolean);
+  const pathLang = SUPPORTED.includes(chunks[0]) && chunks[0] !== 'en' ? chunks[0] : null;
+  const pageName = FILES.includes(chunks[chunks.length - 1]) ? chunks[chunks.length - 1] : 'index.html';
+  const pageLang = pathLang || 'en';
+
+  const store = value => {
+    try { localStorage.setItem(STORAGE_KEY, value); } catch (_) { /* private browsing/file scheme */ }
+  };
+  const stored = () => {
+    try {
+      const value = localStorage.getItem(STORAGE_KEY);
+      return SUPPORTED.includes(value) ? value : null;
+    } catch (_) { return null; }
+  };
+  const match = value => {
+    const v = String(value || '').toLowerCase().replaceAll('_','-');
+    const exact = SUPPORTED.find(x => x.toLowerCase() === v);
+    if (exact) return exact;
+    if (v.startsWith('zh-')) return /(?:tw|hk|mo|hant)(?:-|$)/.test(v) ? 'zh-Hant' : 'zh-Hans';
+    const primary = v.split('-')[0];
+    if (primary === 'pt') return 'pt-BR';
+    const code = SUPPORTED.find(x => x.toLowerCase() === primary);
+    return code || null;
+  };
+  const preferred = () => {
+    const list = Array.isArray(navigator.languages) && navigator.languages.length
+      ? navigator.languages : [navigator.language];
+    for (const language of list) {
+      const code = match(language);
+      if (code) return code;
+    }
+    return 'en';
+  };
+  const target = language => new URL((language === 'en' ? '' : language + '/') + pageName + location.hash, base).href;
+
+  // An explicit localized URL wins over saved/browser preferences.
+  // Root (English) pages honor the saved preference, or detect on first visit.
+  if (pathLang) {
+    store(pathLang);
+  } else {
+    const effective = stored() || preferred();
+    if (effective !== 'en') {
+      location.replace(target(effective));
+      return;
+    }
   }
-  const here = new URL(window.location.href);
-  const current = document.documentElement.lang;
-  const parts = here.pathname.split('/');
-  let page = parts.pop() || 'index.html';
-  if (!['index.html', 'support.html', 'privacy.html'].includes(page)) return;
-  if (['es', 'pt-BR'].includes(parts[parts.length - 1])) parts.pop();
-  const base = parts.join('/') + '/';
-  function destination(lang) {
-    const next = new URL(here);
-    next.pathname = base + (lang === 'en' ? '' : lang + '/') + page;
-    next.searchParams.set('lang', lang);
-    return next;
-  }
-  let saved = null;
-  try { saved = localStorage.getItem('imagemorph.site.language'); } catch (_) {}
-  const explicit = here.searchParams.get('lang');
-  let preferred = supported.includes(explicit) ? explicit : null;
-  if (!preferred && current !== 'en') preferred = current;
-  if (!preferred && supported.includes(saved)) preferred = saved;
-  if (!preferred) preferred = (navigator.languages || [navigator.language]).map(match).find(Boolean) || 'en';
-  if (preferred !== current) {
-    window.location.replace(destination(preferred).href);
-    return;
-  }
-  const selector = document.getElementById('site-language');
-  if (!selector) return;
-  selector.value = current;
-  selector.addEventListener('change', function () {
-    if (!supported.includes(selector.value)) return;
-    try { localStorage.setItem('imagemorph.site.language', selector.value); } catch (_) {}
-    window.location.assign(destination(selector.value).href);
+
+  select.value = pageLang;
+  select.addEventListener('change', () => {
+    const next = select.value;
+    if (!SUPPORTED.includes(next)) return;
+    store(next);
+    if (next !== pageLang) location.assign(target(next));
   });
-}());
+})();
