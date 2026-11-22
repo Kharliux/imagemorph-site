@@ -11,3 +11,92 @@ nav{flex-wrap:wrap}.language-picker{display:flex;align-items:center;gap:10px;col
 
 /* v4.1: parity sections and support FAQ */
 .localized-main details{margin:0 0 12px;padding:14px 18px;border:1px solid #c5d3e5;border-radius:10px;background:#fff}.localized-main details summary{cursor:pointer;font-weight:700;line-height:1.5}.localized-main details p{margin:14px 0 0}.localized-main .table-scroll{overflow-x:auto}.localized-main .feature-table{width:100%;border-collapse:collapse;min-width:560px}.localized-main .feature-table th,.localized-main .feature-table td{padding:12px;text-align:left;border-bottom:1px solid #d6e0ed;vertical-align:top}.localized-main .feature-table thead{background:#ecf4fb}.localized-main #free-tools .grid{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:760px){.localized-main #free-tools .grid{grid-template-columns:1fr}}
+
+
+/* v4.3 PREVIEW: real App Store screenshots beside existing module explanations */
+.feature-shot{margin:20px 0 0;border:1px solid #d8e3f0;border-radius:14px;overflow:hidden;background:#131e30}
+.feature-shot a{display:block;line-height:0}
+.feature-shot img{width:100%;height:auto;display:block;aspect-ratio:16/10;object-fit:contain}
+.feature-shot a:hover img{filter:brightness(1.05)}
+.feature-shot a:focus-visible{outline:3px solid #176cbd;outline-offset:-4px}
+.card .feature-shot{margin-top:auto;padding-top:0}
+.card:has(.feature-shot){display:flex;flex-direction:column;gap:6px}
+.card:has(.feature-shot) p{margin-bottom:18px}
+.inline-inspector-shot,.history-shot{padding:22px;border-radius:18px;background:#fff;border:1px solid #dce4ef;margin:26px 0}
+.inline-inspector-shot .feature-shot{max-width:780px;margin:12px auto 0}
+.inline-inspector-label{font-weight:700;margin:0;color:#17637a}
+.history-shot .feature-shot{max-width:800px;margin:14px auto 0}
+.history-shot p{margin-bottom:8px}
+@media(max-width:760px){.feature-shot{margin-top:15px}.inline-inspector-shot,.history-shot{padding:13px}}
+
+.feature-shot--concept{margin-top:auto}.feature-shot--concept img{aspect-ratio:3/2;object-fit:cover}
+
+
+/* v4.4 — commercial navigation, Free Inspector + History duo and QR awareness */
+.hero .buttons{display:flex;gap:12px;flex-wrap:wrap}
+.hero .buttons .button{white-space:normal;text-align:center}
+.free-review-duo{margin:28px 0 0}
+.free-review-heading{margin-bottom:20px}
+.free-review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.free-review-panel{display:flex;flex-direction:column;border:1px solid #dce4ef;background:#fff;border-radius:18px;padding:26px;min-width:0}
+.free-review-panel h4{font-size:21px;line-height:1.3;margin:0 0 14px}
+.free-review-panel p{color:#526079;margin-bottom:20px}
+.free-review-panel .feature-shot{margin-top:auto}
+.qr-story{background:linear-gradient(125deg,#11243e,#222d57);padding:40px;border-radius:23px;color:white}
+.qr-story .eyebrow{color:#84eced}
+.qr-story h2{max-width:780px;font-size:clamp(24px,3.4vw,36px)}
+.qr-story .lead{color:#e4ebf7;max-width:900px}
+.qr-story-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;margin-top:24px}
+.qr-story-demo{background:#f5f9ff;color:#1b3050;border-radius:16px;padding:28px}
+.qr-mail{background:white;border:1px solid #d2e1ef;border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.qr-mail-heading{font-weight:650}
+.qr-fake-icon{font-size:60px;line-height:1;color:#1361a9}
+.qr-story-steps{margin:18px 0;padding-left:25px;font-weight:600}
+.qr-story-steps li{padding:3px 0}
+.qr-demo-url{font:600 16px/1.5 ui-monospace,monospace;border-radius:10px;background:#e7effb;padding:10px 14px;overflow-wrap:anywhere}
+.qr-story-shot{display:block;width:100%;height:auto;border-radius:13px;border:1px solid #4a658f}
+.qr-story-copy .qr-caution{color:#e0e7f4;font-size:15px;margin:14px 0}
+.qr-story .button.secondary{background:#d5eef6;color:#122d48}
+@media(max-width:760px){
+  .qr-story{padding:22px}
+  .qr-story-grid,.free-review-grid{grid-template-columns:1fr}
+  .free-review-panel{padding:19px}
+  .qr-story-demo{padding:16px}
+}
+
+/* v4.5 — consistent 3-column hero CTAs, sticky accessible header, real QR example */
+:root {scroll-padding-top:115px;}
+html {scroll-padding-top:115px;}
+[id] {scroll-margin-top:115px;}
+header{position:sticky;top:0;z-index:110;background:linear-gradient(110deg,#263e61 0%,#314f72 100%);box-shadow:0 4px 15px rgba(22,39,62,.12);}
+nav{padding:14px 24px;}
+.language-picker{display:inline-flex;align-items:center;gap:10px;flex:0 0 auto;}
+.language-picker-globe{font-size:21px;line-height:1;display:inline-flex;align-items:center;}
+.language-picker select{background:#385477;color:#fff;border-color:#98b6d4;min-width:168px;max-width:220px;padding:9px 31px 9px 12px;}
+.language-picker select:hover{background:#456488;}
+.hero{grid-template-areas:"intro visual" "actions actions" "release release";column-gap:48px;row-gap:14px;}
+.hero > div:first-child{grid-area:intro;min-width:0;}
+.hero > .hero-visual{grid-area:visual;}
+.hero > .hero-actions{grid-area:actions;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;width:100%;margin:12px 0 0;}
+.hero-actions .button{display:flex;align-items:center;justify-content:center;text-align:center;min-height:66px;padding:12px 15px;line-height:1.3;white-space:normal;}
+.hero > .hero-release{grid-area:release;margin:6px 0 0;}
+.qr-mail{align-items:center;}
+.qr-demo-code{display:block;max-width:108px;width:27%;aspect-ratio:1;object-fit:contain;image-rendering:auto;border:4px solid white;background:white;border-radius:8px;flex-shrink:0;}
+@media(max-width:960px){
+  nav{padding:13px 20px;}
+  .hero > .hero-actions{gap:10px;}
+  .hero-actions .button{font-size:15px;}
+}
+@media(max-width:760px){
+  :root,html{scroll-padding-top:170px;}
+  [id]{scroll-margin-top:170px;}
+  header{position:sticky;}
+  nav{padding:10px 16px;gap:8px;}
+  nav .brand{font-size:20px;}
+  .language-picker{width:auto;justify-content:flex-start;}
+  .language-picker select{min-width:148px;max-width:185px;}
+  .hero{grid-template-columns:1fr;grid-template-areas:"intro" "visual" "actions" "release";}
+  .hero > .hero-actions{grid-template-columns:1fr;gap:10px;margin-top:8px;}
+  .hero-actions .button{min-height:51px;font-size:17px;}
+}
+@media(min-width:761px) and (max-width:1040px){.hero-actions .button{font-size:clamp(13px,1.7vw,18px);}}

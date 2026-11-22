@@ -45,7 +45,9 @@
     }
     return 'en';
   };
-  const target = language => new URL((language === 'en' ? '' : language + '/') + pageName + location.hash, base).href;
+  // Language switching always starts at the top of the corresponding page.
+  // This avoids carrying #studio/#free-tools into a different locale.
+  const target = language => new URL((language === 'en' ? '' : language + '/') + pageName, base).href;
 
   // An explicit localized URL wins over saved/browser preferences.
   // Root (English) pages honor the saved preference, or detect on first visit.
