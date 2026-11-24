@@ -69,19 +69,32 @@
     if (next !== pageLang) location.assign(target(next));
   });
 
-  // Mac App Store listing: visible on every localized home page.
-  // The listing may become publicly accessible only after Apple's approval.
+  // ImageMorph Mac App Store launch gate. Keep OFF while App Review is pending.
+  // Enable only after official public availability and all localized Apple badge
+  // assets have been obtained unchanged from Apple's marketing tools.
+  const APP_STORE_RELEASED = false;
+  const APP_STORE_URL = 'https://apps.apple.com/app/id6817488526';
+
   if (pageName === 'index.html') {
     const actions = document.querySelector('main .hero-actions');
-    if (actions && !document.getElementById('imagemorph-app-store-link')) {
-      const link = document.createElement('a');
-      link.id = 'imagemorph-app-store-link';
-      link.className = 'button app-store-button';
-      link.href = 'https://apps.apple.com/app/id6817488526';
-      link.textContent = 'Mac App Store ↗';
-      link.setAttribute('aria-label', 'ImageMorph — Mac App Store');
-      link.rel = 'noopener noreferrer';
-      actions.appendChild(link);
+    const provisional = document.getElementById('imagemorph-app-store-link');
+    if (provisional) provisional.remove();
+    if (APP_STORE_RELEASED && actions) {
+      const badge = document.createElement('a');
+      badge.id = 'imagemorph-official-app-store-badge';
+      badge.className = 'app-store-badge-link';
+      badge.href = APP_STORE_URL;
+      badge.rel = 'noopener noreferrer';
+      badge.setAttribute('aria-label', 'ImageMorph on the Mac App Store');
+      const artwork = document.createElement('img');
+      artwork.alt = 'Mac App Store';
+      artwork.width = 180;
+      artwork.height = 60;
+      artwork.loading = 'eager';
+      // These assets must be authentic, unmodified official Apple artwork.
+      artwork.src = new URL('assets/app-store-badges/' + pageLang + '.svg', base).href;
+      badge.appendChild(artwork);
+      actions.appendChild(badge);
     }
   }
 
