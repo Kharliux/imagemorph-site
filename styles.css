@@ -102,13 +102,14 @@ nav{padding:14px 24px;}
 @media(min-width:761px) and (max-width:1040px){.hero-actions .button{font-size:clamp(13px,1.7vw,18px);}}
 
 
-/* Mac App Store CTA: fourth hero action on all 19 localized landing pages. */
-.hero > .hero-actions:has(.app-store-button){grid-template-columns:repeat(4,minmax(0,1fr));}
-.hero-actions .app-store-button{background:#111d31;color:#fff;}
-.hero-actions .app-store-button:hover{background:#243f64;}
+/* Official Mac App Store badge (launch-gated in language.js).
+   Preserve the artwork, its aspect ratio and at least 40px screen height. */
+.hero > .hero-actions:has(.app-store-badge-link){grid-template-columns:repeat(4,minmax(0,1fr));}
+.hero-actions .app-store-badge-link{display:flex;align-items:center;justify-content:center;min-height:66px;padding:8px;text-decoration:none;}
+.hero-actions .app-store-badge-link img{display:block;width:auto;max-width:100%;height:auto;min-height:40px;object-fit:contain;}
 @media(max-width:1040px) and (min-width:761px){
-  .hero > .hero-actions:has(.app-store-button){grid-template-columns:repeat(2,minmax(0,1fr));}
+  .hero > .hero-actions:has(.app-store-badge-link){grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media(max-width:760px){
-  .hero > .hero-actions:has(.app-store-button){grid-template-columns:1fr;}
+  .hero > .hero-actions:has(.app-store-badge-link){grid-template-columns:1fr;}
 }
