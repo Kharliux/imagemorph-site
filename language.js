@@ -68,4 +68,21 @@
     store(next);
     if (next !== pageLang) location.assign(target(next));
   });
+
+  // Mac App Store listing: visible on every localized home page.
+  // The listing may become publicly accessible only after Apple's approval.
+  if (pageName === 'index.html') {
+    const actions = document.querySelector('main .hero-actions');
+    if (actions && !document.getElementById('imagemorph-app-store-link')) {
+      const link = document.createElement('a');
+      link.id = 'imagemorph-app-store-link';
+      link.className = 'button app-store-button';
+      link.href = 'https://apps.apple.com/app/id6817488526';
+      link.textContent = 'Mac App Store ↗';
+      link.setAttribute('aria-label', 'ImageMorph — Mac App Store');
+      link.rel = 'noopener noreferrer';
+      actions.appendChild(link);
+    }
+  }
+
 })();
