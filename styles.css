@@ -100,3 +100,15 @@ nav{padding:14px 24px;}
   .hero-actions .button{min-height:51px;font-size:17px;}
 }
 @media(min-width:761px) and (max-width:1040px){.hero-actions .button{font-size:clamp(13px,1.7vw,18px);}}
+
+
+/* Mac App Store CTA: fourth hero action on all 19 localized landing pages. */
+.hero > .hero-actions:has(.app-store-button){grid-template-columns:repeat(4,minmax(0,1fr));}
+.hero-actions .app-store-button{background:#111d31;color:#fff;}
+.hero-actions .app-store-button:hover{background:#243f64;}
+@media(max-width:1040px) and (min-width:761px){
+  .hero > .hero-actions:has(.app-store-button){grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:760px){
+  .hero > .hero-actions:has(.app-store-button){grid-template-columns:1fr;}
+}
