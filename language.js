@@ -47,12 +47,19 @@
   };
   // Language switching always starts at the top of the corresponding page.
   // This avoids carrying #studio/#free-tools into a different locale.
-  const target = language => new URL((language === 'en' ? '' : language + '/') + pageName, base).href;
+  const target = language => {
+    const url = new URL((language === 'en' ? '' : language + '/') + pageName, base);
+    if (language === 'en') url.searchParams.set('lang', 'en');
+    return url.href;
+  };
 
-  // An explicit localized URL wins over saved/browser preferences.
-  // Root (English) pages honor the saved preference, or detect on first visit.
+  // Explicit localized paths and ?lang=en outrank saved/browser preferences.
+  // Normal root visits still honor saved preference or browser detection.
+  const explicitEnglish = !pathLang && new URLSearchParams(location.search).get('lang') === 'en';
   if (pathLang) {
     store(pathLang);
+  } else if (explicitEnglish) {
+    store('en');
   } else {
     const effective = stored() || preferred();
     if (effective !== 'en') {
